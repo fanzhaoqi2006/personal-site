@@ -155,14 +155,40 @@ function renderPortrait() {
 }
 
 function setPortraitImage(index) {
-  const imageUrl = profile.images[index];
-  if (imageUrl) {
-    portrait.classList.add("has-image");
-    portrait.style.backgroundImage = `url("${imageUrl.replaceAll('"', "%22")}")`;
-  } else {
+  portrait.querySelectorAll(".portrait-window").forEach((node) => node.remove());
+
+  if (!profile.images.length) {
     portrait.classList.remove("has-image");
     portrait.style.backgroundImage = "";
+    return;
   }
+
+  portrait.classList.add("has-image");
+  portrait.style.backgroundImage = "";
+
+  const visibleCards =
+    profile.images.length === 1
+      ? [{ imageIndex: index, className: "active entering" }]
+      : [
+          {
+            imageIndex: (index - 1 + profile.images.length) % profile.images.length,
+            className: "previous"
+          },
+          { imageIndex: index, className: "active entering" },
+          {
+            imageIndex: (index + 1) % profile.images.length,
+            className: "next"
+          }
+        ];
+
+  visibleCards.forEach((card) => {
+    const imageUrl = profile.images[card.imageIndex];
+    const layer = document.createElement("div");
+    layer.className = `portrait-window ${card.className}`;
+    layer.style.backgroundImage = `url("${imageUrl.replaceAll('"', "%22")}")`;
+    layer.setAttribute("aria-hidden", "true");
+    portrait.append(layer);
+  });
 }
 
 function renderImageDots() {
