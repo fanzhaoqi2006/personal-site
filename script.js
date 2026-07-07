@@ -369,6 +369,46 @@ function configureEditMode() {
   }
 }
 
+function setupPageMotion() {
+  const sections = document.querySelectorAll(".section");
+  const navLinks = [...document.querySelectorAll(".nav a")];
+
+  const revealObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("is-visible");
+        }
+      });
+    },
+    { threshold: 0.16 }
+  );
+
+  sections.forEach((section) => revealObserver.observe(section));
+
+  const navObserver = new IntersectionObserver(
+    (entries) => {
+      const visibleEntry = entries
+        .filter((entry) => entry.isIntersecting)
+        .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+
+      if (!visibleEntry) {
+        return;
+      }
+
+      navLinks.forEach((link) => {
+        link.classList.toggle("active", link.getAttribute("href") === `#${visibleEntry.target.id}`);
+      });
+    },
+    {
+      rootMargin: "-35% 0px -52% 0px",
+      threshold: [0.1, 0.25, 0.5]
+    }
+  );
+
+  document.querySelectorAll("section[id]").forEach((section) => navObserver.observe(section));
+}
+
 function downloadCurrentSite() {
   const html = document.documentElement.outerHTML.replace(
     "window.siteProfile = null;",
@@ -414,5 +454,6 @@ document.addEventListener("keydown", (event) => {
 });
 
 configureEditMode();
+setupPageMotion();
 renderProfile();
 fillForm();
