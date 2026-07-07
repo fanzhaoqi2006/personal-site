@@ -601,11 +601,37 @@ function runBootSequence() {
   }, 48);
 }
 
-function downloadCurrentSite() {
-  const html = document.documentElement.outerHTML.replace(
+function buildCleanExportHtml() {
+  const clone = document.documentElement.cloneNode(true);
+
+  clone.querySelector("#editor")?.setAttribute("hidden", "");
+  clone.querySelector("#editToggle")?.setAttribute("hidden", "");
+  clone.querySelector("body")?.classList.add("public-mode");
+  clone.querySelector("#toast")?.classList.remove("show");
+  clone.querySelectorAll(".portrait-window").forEach((node) => node.remove());
+
+  const clonedPortrait = clone.querySelector("#portraitPreview");
+  if (clonedPortrait) {
+    clonedPortrait.className = "portrait";
+    clonedPortrait.removeAttribute("style");
+  }
+
+  const clonedDots = clone.querySelector("#imageDots");
+  if (clonedDots) {
+    clonedDots.innerHTML = "";
+    clonedDots.removeAttribute("hidden");
+  }
+
+  clone.querySelector("#bootScreen")?.classList.remove("is-hidden");
+
+  return clone.outerHTML.replace(
     "window.siteProfile = null;",
     `window.siteProfile = ${JSON.stringify(profile, null, 2)};`
   );
+}
+
+function downloadCurrentSite() {
+  const html = buildCleanExportHtml();
   const blob = new Blob([`<!doctype html>\n${html}`], { type: "text/html;charset=utf-8" });
   const url = URL.createObjectURL(blob);
   const link = document.createElement("a");
