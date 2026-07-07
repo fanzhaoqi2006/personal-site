@@ -6,8 +6,8 @@
     <title>Dreamer - 范钊齐的主页</title>
     <link rel="stylesheet" href="styles.css">
   </head>
-  <body>
-    <div class="boot-screen is-hidden" id="bootScreen" aria-hidden="true">
+  <body class="public-mode">
+    <div class="boot-screen" id="bootScreen" aria-hidden="true">
       <div class="boot-panel">
         <span>PERSONAL TERMINAL</span>
         <strong>LOADING</strong>
@@ -35,7 +35,7 @@
         <a href="#blog">日志</a>
         <a href="#contact">联系</a>
       </nav>
-      <button class="icon-button" type="button" id="editToggle" aria-label="编辑资料" title="编辑资料">
+      <button class="icon-button" type="button" id="editToggle" aria-label="编辑资料" title="编辑资料" hidden="">
         <span aria-hidden="true">✎</span>
       </button>
     </header>
@@ -53,10 +53,10 @@
           </div>
         </div>
         <div class="portrait-panel" aria-label="个人图片区域">
-          <div class="portrait has-image" id="portraitPreview">
+          <div class="portrait" id="portraitPreview">
             <span data-field="initials">Dr</span>
-          <div class="portrait-window previous" aria-hidden="true" style="background-image: url(&quot;images/me-5.jpg&quot;);"></div><div class="portrait-window active entering" aria-hidden="true" style="background-image: url(&quot;images/me-6.jpg&quot;);"></div><div class="portrait-window next" aria-hidden="true" style="background-image: url(&quot;images/me-7.jpg&quot;);"></div></div>
-          <div class="image-dots" id="imageDots" aria-label="图片切换状态"><button type="button" class="" aria-label="切换到第 1 张图片"></button><button type="button" class="" aria-label="切换到第 2 张图片"></button><button type="button" class="" aria-label="切换到第 3 张图片"></button><button type="button" class="" aria-label="切换到第 4 张图片"></button><button type="button" class="" aria-label="切换到第 5 张图片"></button><button type="button" class="active" aria-label="切换到第 6 张图片"></button><button type="button" class="" aria-label="切换到第 7 张图片"></button><button type="button" class="" aria-label="切换到第 8 张图片"></button><button type="button" class="" aria-label="切换到第 9 张图片"></button><button type="button" class="" aria-label="切换到第 10 张图片"></button></div>
+          </div>
+          <div class="image-dots" id="imageDots" aria-label="图片切换状态"></div>
           <div class="quick-card">
             <span class="quick-label">当前身份</span>
             <strong data-field="role">南京理工大学本科三年级</strong>
@@ -210,7 +210,7 @@
       </section>
     </main>
 
-    <aside class="editor" id="editor" aria-label="资料编辑器">
+    <aside class="editor" id="editor" aria-label="资料编辑器" hidden="">
       <div class="editor-header">
         <div>
           <p class="eyebrow">Editor</p>
