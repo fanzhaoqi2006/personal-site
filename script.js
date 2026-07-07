@@ -27,7 +27,7 @@ const defaultProfile = {
   resume: "#",
   contactNote: "欢迎通过下面的方式联系我，交流合作、机会或想法。",
   intelLabel: "LAST UPDATE",
-  intelText: "最后更新时间：2026-07-08 00:50:44",
+  intelText: "最后更新时间：2026-07-08 01:21:27",
   profileStatus: "照片墙、行动面板、经历与作品持续更新中。",
   deck: [
     {
@@ -58,20 +58,20 @@ const defaultProfile = {
       description: "描述一个重要阶段，以及你负责或完成的事情。"
     }
   ],
-  projects: [
+  blog: [
     {
-      title: "代表项目",
-      description: "介绍项目目标、你的贡献，以及最后产生的结果。",
+      title: "最近在想的事",
+      description: "记录一段近期思考、学习笔记、游戏体验或生活片段。",
       link: "#"
     },
     {
-      title: "个人作品",
-      description: "展示你希望别人看到的作品、文章、视频或产品。",
+      title: "游戏与审美",
+      description: "聊聊我喜欢的游戏、角色、世界观，以及它们带给我的灵感。",
       link: "#"
     },
     {
-      title: "更多内容",
-      description: "可以放 GitHub、作品集、公众号、博客或其他链接。",
+      title: "学习记录",
+      description: "整理我正在学习的内容、踩过的坑，以及值得留下来的方法。",
       link: "#"
     }
   ]
@@ -120,6 +120,12 @@ function normalizeProfile(nextProfile) {
     nextProfile.signalTags = defaultProfile.signalTags;
   }
 
+  if (!Array.isArray(nextProfile.blog)) {
+    nextProfile.blog = Array.isArray(nextProfile.projects)
+      ? nextProfile.projects
+      : defaultProfile.blog;
+  }
+
   if (nextProfile.avatar && !nextProfile.images.length) {
     nextProfile.images = [nextProfile.avatar];
   }
@@ -127,6 +133,7 @@ function normalizeProfile(nextProfile) {
   nextProfile.images = nextProfile.images.map((url) => text(url)).filter(Boolean);
   nextProfile.deck = nextProfile.deck.filter((item) => item && text(item.title));
   nextProfile.signalTags = nextProfile.signalTags.map((tag) => text(tag)).filter(Boolean);
+  nextProfile.blog = nextProfile.blog.filter((item) => item && text(item.title));
   return nextProfile;
 }
 
@@ -178,7 +185,7 @@ function renderProfile() {
   renderDeck();
   renderSignalTags();
   renderExperience();
-  renderProjects();
+  renderBlog();
 }
 
 function renderPortrait() {
@@ -329,12 +336,12 @@ function renderExperience() {
   });
 }
 
-function renderProjects() {
-  const list = document.querySelector("#projectList");
+function renderBlog() {
+  const list = document.querySelector("#blogList");
   list.innerHTML = "";
-  profile.projects.forEach((item) => {
+  profile.blog.forEach((item) => {
     const article = document.createElement("article");
-    article.className = "project-card";
+    article.className = "blog-card";
     article.innerHTML = `
       <div>
         <h3></h3>
@@ -348,7 +355,7 @@ function renderProjects() {
     link.href = text(item.link, "#");
     if (!text(item.link) || item.link === "#") {
       link.removeAttribute("target");
-      link.textContent = "待添加链接";
+      link.textContent = "阅读全文";
     }
     list.append(article);
   });
@@ -363,7 +370,7 @@ function fillForm() {
     experience: profile.experience
       .map((item) => `${item.period} | ${item.title} | ${item.description}`)
       .join("\n"),
-    projects: profile.projects
+    blog: profile.blog
       .map((item) => `${item.title} | ${item.description} | ${item.link}`)
       .join("\n")
   };
@@ -415,13 +422,13 @@ function parseExperience(value) {
     });
 }
 
-function parseProjects(value) {
+function parseBlog(value) {
   return value
     .split("\n")
     .map((line) => line.trim())
     .filter(Boolean)
     .map((line) => {
-      const [title = "项目", description = "补充项目说明", link = "#"] = line
+      const [title = "日志", description = "补充日志内容", link = "#"] = line
         .split("|")
         .map((part) => part.trim());
       return { title, description, link };
@@ -453,7 +460,7 @@ function profileFromForm() {
     signalText: text(data.get("signalText"), defaultProfile.signalText),
     signalTags: parseTags(String(data.get("signalTags") || "")),
     experience: parseExperience(String(data.get("experience") || "")),
-    projects: parseProjects(String(data.get("projects") || ""))
+    blog: parseBlog(String(data.get("blog") || ""))
   };
   nextProfile.initials = initialsFromName(nextProfile.name);
   return nextProfile;

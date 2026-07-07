@@ -763,7 +763,7 @@ main {
 
 .info-list div,
 .timeline-item,
-.project-card {
+.blog-card {
   border: 1px solid var(--line);
   border-radius: 8px;
   background: var(--panel);
@@ -794,7 +794,7 @@ main {
 }
 
 .deck-card::before,
-.project-card::before,
+.blog-card::before,
 .timeline-item::before {
   position: absolute;
   left: 0;
@@ -861,25 +861,25 @@ main {
 }
 
 .timeline-item h3,
-.project-card h3 {
+.blog-card h3 {
   margin: 0 0 8px;
 }
 
 .timeline-item p,
-.project-card p,
+.blog-card p,
 .contact-band p {
   margin: 0;
   color: var(--muted);
   line-height: 1.7;
 }
 
-.project-grid {
+.blog-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 16px;
 }
 
-.project-card {
+.blog-card {
   position: relative;
   display: grid;
   min-height: 210px;
@@ -890,14 +890,14 @@ main {
     box-shadow 0.22s ease;
 }
 
-.project-card:hover,
+.blog-card:hover,
 .deck-card:hover,
 .timeline-item:hover {
   transform: translateY(-5px);
   box-shadow: 0 24px 60px rgba(0, 126, 105, 0.16);
 }
 
-.project-card a {
+.blog-card a {
   color: var(--green);
   font-weight: 800;
 }
@@ -1149,7 +1149,7 @@ textarea:focus {
     right: auto;
   }
 
-  .project-grid {
+  .blog-grid {
     grid-template-columns: 1fr;
   }
 

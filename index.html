@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta
       name="description"
-      content="一个可编辑、可部署的个人网站模板，用于展示个人介绍、经历、项目与联系方式。"
+      content="一个可编辑、可部署的个人网站模板，用于展示个人介绍、经历、日志与联系方式。"
     />
     <title>我的个人网站</title>
     <link rel="stylesheet" href="styles.css" />
@@ -36,7 +36,7 @@
       <nav class="nav" aria-label="主导航">
         <a href="#about">关于</a>
         <a href="#experience">经历</a>
-        <a href="#projects">项目</a>
+        <a href="#blog">日志</a>
         <a href="#contact">联系</a>
       </nav>
       <button class="icon-button" type="button" id="editToggle" aria-label="编辑资料" title="编辑资料">
@@ -55,7 +55,7 @@
           </p>
           <div class="actions">
             <a class="button primary" href="#contact">联系我</a>
-            <a class="button secondary" href="#projects">查看项目</a>
+            <a class="button secondary" href="#blog">阅读日志</a>
           </div>
         </div>
         <div class="portrait-panel" aria-label="个人图片区域">
@@ -82,7 +82,7 @@
         <div class="intel-feed">
           <article>
             <time data-field="intelLabel">LAST UPDATE</time>
-            <p data-field="intelText">最后更新时间：2026-07-08 00:50:44</p>
+            <p data-field="intelText">最后更新时间：2026-07-08 01:21:27</p>
           </article>
           <article>
             <time>PROFILE</time>
@@ -149,12 +149,12 @@
         <div class="timeline" id="experienceList"></div>
       </section>
 
-      <section class="section" id="projects">
+      <section class="section" id="blog">
         <div class="section-heading">
-          <p class="eyebrow">Projects</p>
-          <h2>项目与作品</h2>
+          <p class="eyebrow">Blog</p>
+          <h2>个人日志</h2>
         </div>
-        <div class="project-grid" id="projectList"></div>
+        <div class="blog-grid" id="blogList"></div>
       </section>
 
       <section class="section signal-section" aria-label="个性信号">
@@ -287,8 +287,8 @@
           <textarea name="experience" rows="5" placeholder="2024 - 至今 | 公司/学校 | 做过的事情"></textarea>
         </label>
         <label>
-          项目，每行一条
-          <textarea name="projects" rows="5" placeholder="项目名 | 项目说明 | 链接"></textarea>
+          日志，每行一条
+          <textarea name="blog" rows="5" placeholder="标题 | 摘要或正文片段 | 链接"></textarea>
         </label>
         <div class="editor-actions">
           <button class="button primary" type="submit">保存预览</button>
