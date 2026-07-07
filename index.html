@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="一个可编辑、可部署的个人网站模板，用于展示个人介绍、经历、项目与联系方式。"
+    />
+    <title>我的个人网站</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="brand" href="#home" aria-label="返回首页">
+        <span class="brand-mark" aria-hidden="true">人</span>
+        <span data-field="siteTitle">个人主页</span>
+      </a>
+      <nav class="nav" aria-label="主导航">
+        <a href="#about">关于</a>
+        <a href="#experience">经历</a>
+        <a href="#projects">项目</a>
+        <a href="#contact">联系</a>
+      </nav>
+      <button class="icon-button" type="button" id="editToggle" aria-label="编辑资料" title="编辑资料">
+        <span aria-hidden="true">✎</span>
+      </button>
+    </header>
+
+    <main id="home">
+      <section class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow" data-field="tagline">欢迎来到我的个人空间</p>
+          <h1 data-field="name">你的名字</h1>
+          <p class="lead" data-field="intro">
+            在这里写下一段简短介绍：你是谁、正在做什么、擅长什么，以及别人为什么想认识你。
+          </p>
+          <div class="actions">
+            <a class="button primary" href="#contact">联系我</a>
+            <a class="button secondary" href="#projects">查看项目</a>
+          </div>
+        </div>
+        <div class="portrait-panel" aria-label="个人图片区域">
+          <div class="portrait" id="portraitPreview">
+            <span data-field="initials">我</span>
+          </div>
+          <div class="image-dots" id="imageDots" aria-label="图片切换状态"></div>
+          <div class="quick-card">
+            <span class="quick-label">当前身份</span>
+            <strong data-field="role">职业 / 学生 / 创作者</strong>
+            <span data-field="location">所在城市</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="about">
+        <div class="section-heading">
+          <p class="eyebrow">About</p>
+          <h2>关于我</h2>
+        </div>
+        <div class="about-grid">
+          <p class="about-text" data-field="about">
+            这里可以写更完整的个人介绍，例如教育背景、工作方向、兴趣爱好、价值观或近期目标。
+          </p>
+          <div class="info-list">
+            <div>
+              <span>邮箱</span>
+              <strong data-field="email">your@email.com</strong>
+            </div>
+            <div>
+              <span>电话</span>
+              <strong data-field="phone">可选</strong>
+            </div>
+            <div>
+              <span>城市</span>
+              <strong data-field="location">所在城市</strong>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="experience">
+        <div class="section-heading">
+          <p class="eyebrow">Experience</p>
+          <h2>经历</h2>
+        </div>
+        <div class="timeline" id="experienceList"></div>
+      </section>
+
+      <section class="section" id="projects">
+        <div class="section-heading">
+          <p class="eyebrow">Projects</p>
+          <h2>项目与作品</h2>
+        </div>
+        <div class="project-grid" id="projectList"></div>
+      </section>
+
+      <section class="section contact-band" id="contact">
+        <div>
+          <p class="eyebrow">Contact</p>
+          <h2>保持联系</h2>
+          <p data-field="contactNote">欢迎通过下面的方式联系我，交流合作、机会或想法。</p>
+        </div>
+        <div class="contact-links">
+          <a id="emailLink" href="mailto:your@email.com">发送邮件</a>
+          <a id="socialLink" href="#" target="_blank" rel="noreferrer">社交主页</a>
+          <a id="resumeLink" href="#" target="_blank" rel="noreferrer">简历链接</a>
+        </div>
+      </section>
+    </main>
+
+    <aside class="editor" id="editor" aria-label="资料编辑器" hidden>
+      <div class="editor-header">
+        <div>
+          <p class="eyebrow">Editor</p>
+          <h2>编辑个人信息</h2>
+        </div>
+        <button class="icon-button" type="button" id="closeEditor" aria-label="关闭编辑器" title="关闭">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+
+      <form id="profileForm">
+        <label>
+          网站标题
+          <input name="siteTitle" />
+        </label>
+        <label>
+          姓名
+          <input name="name" />
+        </label>
+        <label>
+          个人图片网址，每行一个
+          <textarea name="images" rows="4" placeholder="https://example.com/photo-1.jpg&#10;https://example.com/photo-2.jpg"></textarea>
+          <small>填写多张图片后，页面会每 5 秒自动切换一次。</small>
+        </label>
+        <label>
+          一句话标签
+          <input name="tagline" />
+        </label>
+        <label>
+          当前身份
+          <input name="role" />
+        </label>
+        <label>
+          所在城市
+          <input name="location" />
+        </label>
+        <label>
+          首页简介
+          <textarea name="intro" rows="3"></textarea>
+        </label>
+        <label>
+          关于我
+          <textarea name="about" rows="5"></textarea>
+        </label>
+        <label>
+          邮箱
+          <input name="email" type="email" />
+        </label>
+        <label>
+          电话
+          <input name="phone" />
+        </label>
+        <label>
+          社交主页链接
+          <input name="social" placeholder="https://..." />
+        </label>
+        <label>
+          简历链接
+          <input name="resume" placeholder="https://..." />
+        </label>
+        <label>
+          联系说明
+          <textarea name="contactNote" rows="3"></textarea>
+        </label>
+        <label>
+          经历，每行一条
+          <textarea name="experience" rows="5" placeholder="2024 - 至今 | 公司/学校 | 做过的事情"></textarea>
+        </label>
+        <label>
+          项目，每行一条
+          <textarea name="projects" rows="5" placeholder="项目名 | 项目说明 | 链接"></textarea>
+        </label>
+        <div class="editor-actions">
+          <button class="button primary" type="submit">保存预览</button>
+          <button class="button secondary" type="button" id="downloadSite">导出网页</button>
+          <button class="button ghost" type="button" id="resetProfile">恢复示例</button>
+        </div>
+      </form>
+    </aside>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <script>
+      window.siteProfile = null;
+    </script>
+    <script src="script.js"></script>
+  </body>
+</html>
