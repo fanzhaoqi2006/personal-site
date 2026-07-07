@@ -11,9 +11,7 @@ const defaultProfile = {
     "images/me-7.jpg",
     "images/me-8.jpg",
     "images/me-9.jpg",
-    "images/me-10.jpg",
-    "images/me-11.jpg",
-    "images/me-12.jpg"
+    "images/me-10.jpg"
   ],
   initials: "我",
   tagline: "欢迎来到我的个人空间",
@@ -27,7 +25,7 @@ const defaultProfile = {
   resume: "#",
   contactNote: "欢迎通过下面的方式联系我，交流合作、机会或想法。",
   intelLabel: "LAST UPDATE",
-  intelText: "最后更新时间：2026-07-08 01:21:27",
+  intelText: "最后更新时间：2026-07-08 01:43:42",
   profileStatus: "照片墙、行动面板、经历与作品持续更新中。",
   deck: [
     {
