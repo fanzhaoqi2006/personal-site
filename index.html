@@ -11,6 +11,20 @@
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
+    <div class="boot-screen" id="bootScreen" aria-hidden="true">
+      <div class="boot-panel">
+        <span>PERSONAL TERMINAL</span>
+        <strong>LOADING</strong>
+        <i id="bootPercent">0%</i>
+      </div>
+    </div>
+
+    <aside class="site-rail" aria-hidden="true">
+      <span>PERSONAL//SITE</span>
+      <strong id="sectionIndex">00</strong>
+      <span id="sectionTotal">// 00 / 06</span>
+    </aside>
+
     <header class="topbar">
       <a class="brand" href="#home" aria-label="返回首页">
         <span class="brand-mark" aria-hidden="true">人</span>
@@ -30,6 +44,7 @@
     <main id="home">
       <section class="hero">
         <div class="hero-copy">
+          <div class="terminal-line" aria-hidden="true">RHODES STYLE :// PERSONAL PROFILE</div>
           <p class="eyebrow" data-field="tagline">欢迎来到我的个人空间</p>
           <h1 data-field="name">你的名字</h1>
           <p class="lead" data-field="intro">
@@ -50,6 +65,23 @@
             <strong data-field="role">职业 / 学生 / 创作者</strong>
             <span data-field="location">所在城市</span>
           </div>
+        </div>
+      </section>
+
+      <section class="section intel-strip" id="intel">
+        <div class="intel-title">
+          <span>BREAKING INTEL</span>
+          <strong>PERSONAL UPDATE</strong>
+        </div>
+        <div class="intel-feed">
+          <article>
+            <time>2026 // 07 / 08</time>
+            <p>个人网站已切换为战术终端视觉模式。</p>
+          </article>
+          <article>
+            <time>PROFILE</time>
+            <p>照片墙、行动面板、经历与作品持续更新中。</p>
+          </article>
         </div>
       </section>
 

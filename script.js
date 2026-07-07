@@ -64,6 +64,10 @@ const toast = document.querySelector("#toast");
 const portrait = document.querySelector("#portraitPreview");
 const imageDots = document.querySelector("#imageDots");
 const editToggle = document.querySelector("#editToggle");
+const bootScreen = document.querySelector("#bootScreen");
+const bootPercent = document.querySelector("#bootPercent");
+const sectionIndex = document.querySelector("#sectionIndex");
+const sectionTotal = document.querySelector("#sectionTotal");
 
 let profile = loadProfile();
 let imageIndex = 0;
@@ -372,6 +376,11 @@ function configureEditMode() {
 function setupPageMotion() {
   const sections = document.querySelectorAll(".section");
   const navLinks = [...document.querySelectorAll(".nav a")];
+  const indexedSections = [...document.querySelectorAll("section")];
+
+  if (sectionTotal) {
+    sectionTotal.textContent = `// 00 / ${String(indexedSections.length).padStart(2, "0")}`;
+  }
 
   const revealObserver = new IntersectionObserver(
     (entries) => {
@@ -399,6 +408,11 @@ function setupPageMotion() {
       navLinks.forEach((link) => {
         link.classList.toggle("active", link.getAttribute("href") === `#${visibleEntry.target.id}`);
       });
+
+      const currentIndex = indexedSections.indexOf(visibleEntry.target) + 1;
+      if (sectionIndex && currentIndex > 0) {
+        sectionIndex.textContent = String(currentIndex).padStart(2, "0");
+      }
     },
     {
       rootMargin: "-35% 0px -52% 0px",
@@ -407,6 +421,23 @@ function setupPageMotion() {
   );
 
   document.querySelectorAll("section[id]").forEach((section) => navObserver.observe(section));
+}
+
+function runBootSequence() {
+  if (!bootScreen || !bootPercent) {
+    return;
+  }
+
+  let progress = 0;
+  const timer = window.setInterval(() => {
+    progress += 17;
+    bootPercent.textContent = `${Math.min(progress, 100)}%`;
+
+    if (progress >= 100) {
+      window.clearInterval(timer);
+      window.setTimeout(() => bootScreen.classList.add("is-hidden"), 220);
+    }
+  }, 48);
 }
 
 function downloadCurrentSite() {
@@ -455,5 +486,6 @@ document.addEventListener("keydown", (event) => {
 
 configureEditMode();
 setupPageMotion();
+runBootSequence();
 renderProfile();
 fillForm();
