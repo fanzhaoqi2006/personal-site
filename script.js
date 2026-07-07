@@ -63,6 +63,7 @@ const form = document.querySelector("#profileForm");
 const toast = document.querySelector("#toast");
 const portrait = document.querySelector("#portraitPreview");
 const imageDots = document.querySelector("#imageDots");
+const editToggle = document.querySelector("#editToggle");
 
 let profile = loadProfile();
 let imageIndex = 0;
@@ -358,6 +359,16 @@ function closeEditor() {
   editor.hidden = true;
 }
 
+function configureEditMode() {
+  const isPublicPage = window.location.protocol === "http:" || window.location.protocol === "https:";
+
+  if (isPublicPage) {
+    document.body.classList.add("public-mode");
+    editToggle.hidden = true;
+    editToggle.setAttribute("aria-hidden", "true");
+  }
+}
+
 function downloadCurrentSite() {
   const html = document.documentElement.outerHTML.replace(
     "window.siteProfile = null;",
@@ -373,7 +384,7 @@ function downloadCurrentSite() {
   showToast("已导出 index.html，可用于发布。");
 }
 
-document.querySelector("#editToggle").addEventListener("click", openEditor);
+editToggle.addEventListener("click", openEditor);
 document.querySelector("#closeEditor").addEventListener("click", closeEditor);
 
 form.addEventListener("submit", (event) => {
@@ -402,5 +413,6 @@ document.addEventListener("keydown", (event) => {
   }
 });
 
+configureEditMode();
 renderProfile();
 fillForm();

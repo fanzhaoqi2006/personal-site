@@ -119,6 +119,10 @@ a {
   color: var(--green);
 }
 
+.public-mode #editToggle {
+  display: none;
+}
+
 main {
   overflow: hidden;
 }
