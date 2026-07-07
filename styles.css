@@ -82,6 +82,44 @@ body {
   line-height: 0.9;
 }
 
+.boot-progress {
+  position: relative;
+  height: 10px;
+  overflow: hidden;
+  border: 1px solid rgba(131, 241, 210, 0.42);
+  background:
+    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.08) 0 1px, transparent 1px 12px),
+    rgba(255, 255, 255, 0.08);
+}
+
+.boot-progress div {
+  width: 0%;
+  height: 100%;
+  background:
+    linear-gradient(90deg, var(--teal), var(--green), var(--mint)),
+    var(--green);
+  box-shadow: 0 0 22px rgba(131, 241, 210, 0.6);
+  transition: width 0.18s ease;
+}
+
+.boot-progress::after {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.5), transparent);
+  animation: bootScan 1s linear infinite;
+  content: "";
+}
+
+@keyframes bootScan {
+  from {
+    transform: translateX(-100%);
+  }
+
+  to {
+    transform: translateX(100%);
+  }
+}
+
 .site-rail {
   position: fixed;
   left: 18px;
@@ -169,7 +207,7 @@ a {
 
 .brand-mark {
   display: grid;
-  width: 42px;
+  width: 48px;
   height: 34px;
   place-items: center;
   border-radius: 4px;

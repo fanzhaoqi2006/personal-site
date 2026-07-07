@@ -66,6 +66,7 @@ const imageDots = document.querySelector("#imageDots");
 const editToggle = document.querySelector("#editToggle");
 const bootScreen = document.querySelector("#bootScreen");
 const bootPercent = document.querySelector("#bootPercent");
+const bootProgressBar = document.querySelector("#bootProgressBar");
 const sectionIndex = document.querySelector("#sectionIndex");
 const sectionTotal = document.querySelector("#sectionTotal");
 
@@ -431,7 +432,11 @@ function runBootSequence() {
   let progress = 0;
   const timer = window.setInterval(() => {
     progress += 17;
-    bootPercent.textContent = `${Math.min(progress, 100)}%`;
+    const visibleProgress = Math.min(progress, 100);
+    bootPercent.textContent = `${visibleProgress}%`;
+    if (bootProgressBar) {
+      bootProgressBar.style.width = `${visibleProgress}%`;
+    }
 
     if (progress >= 100) {
       window.clearInterval(timer);
