@@ -81,12 +81,12 @@
         </div>
         <div class="intel-feed">
           <article>
-            <time>LAST UPDATE</time>
-            <p>网站最后更新时间：2026-07-08 00:32:37</p>
+            <time data-field="intelLabel">LAST UPDATE</time>
+            <p data-field="intelText">最后更新时间：2026-07-08 00:50:44</p>
           </article>
           <article>
             <time>PROFILE</time>
-            <p>照片墙、行动面板、经历与作品持续更新中。</p>
+            <p data-field="profileStatus">照片墙、行动面板、经历与作品持续更新中。</p>
           </article>
         </div>
       </section>
@@ -160,8 +160,8 @@
       <section class="section signal-section" aria-label="个性信号">
         <div class="signal-copy">
           <p class="eyebrow">Signal</p>
-          <h2>我的个性信号</h2>
-          <p>
+          <h2 data-field="signalTitle">我的个性信号</h2>
+          <p data-field="signalText">
             这个网站不是一张静态名片，而是一块可以持续更新的终端屏幕：记录我的成长、作品、兴趣和正在靠近的目标。
           </p>
         </div>
@@ -253,6 +253,34 @@
         <label>
           联系说明
           <textarea name="contactNote" rows="3"></textarea>
+        </label>
+        <label>
+          资讯标签
+          <input name="intelLabel" placeholder="LAST UPDATE" />
+        </label>
+        <label>
+          资讯内容
+          <textarea name="intelText" rows="2"></textarea>
+        </label>
+        <label>
+          资料状态
+          <textarea name="profileStatus" rows="2"></textarea>
+        </label>
+        <label>
+          行动面板，每行一条
+          <textarea name="deck" rows="5" placeholder="标题 | 说明"></textarea>
+        </label>
+        <label>
+          个性信号标题
+          <input name="signalTitle" />
+        </label>
+        <label>
+          个性信号说明
+          <textarea name="signalText" rows="3"></textarea>
+        </label>
+        <label>
+          个性关键词，每行一个
+          <textarea name="signalTags" rows="4" placeholder="FOCUS&#10;TACTIC&#10;CREATE"></textarea>
         </label>
         <label>
           经历，每行一条

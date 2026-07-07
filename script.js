@@ -26,6 +26,26 @@ const defaultProfile = {
   social: "#",
   resume: "#",
   contactNote: "欢迎通过下面的方式联系我，交流合作、机会或想法。",
+  intelLabel: "LAST UPDATE",
+  intelText: "最后更新时间：2026-07-08 00:50:44",
+  profileStatus: "照片墙、行动面板、经历与作品持续更新中。",
+  deck: [
+    {
+      title: "战术身份",
+      description: "偏好清晰计划、稳定推进，也喜欢在复杂问题里寻找漂亮的解法。"
+    },
+    {
+      title: "兴趣坐标",
+      description: "游戏、技术、影像与审美表达，是我用来观察世界的几条主线。"
+    },
+    {
+      title: "当前任务",
+      description: "把学习、作品和个人表达整理成一个持续更新的公开空间。"
+    }
+  ],
+  signalTitle: "我的个性信号",
+  signalText: "这个网站不是一张静态名片，而是一块可以持续更新的终端屏幕：记录我的成长、作品、兴趣和正在靠近的目标。",
+  signalTags: ["FOCUS", "TACTIC", "CREATE", "EXPLORE", "LOGIC", "STYLE"],
   experience: [
     {
       period: "2024 - 至今",
@@ -92,11 +112,21 @@ function normalizeProfile(nextProfile) {
     nextProfile.images = [];
   }
 
+  if (!Array.isArray(nextProfile.deck)) {
+    nextProfile.deck = defaultProfile.deck;
+  }
+
+  if (!Array.isArray(nextProfile.signalTags)) {
+    nextProfile.signalTags = defaultProfile.signalTags;
+  }
+
   if (nextProfile.avatar && !nextProfile.images.length) {
     nextProfile.images = [nextProfile.avatar];
   }
 
   nextProfile.images = nextProfile.images.map((url) => text(url)).filter(Boolean);
+  nextProfile.deck = nextProfile.deck.filter((item) => item && text(item.title));
+  nextProfile.signalTags = nextProfile.signalTags.map((tag) => text(tag)).filter(Boolean);
   return nextProfile;
 }
 
@@ -137,9 +167,16 @@ function renderProfile() {
   setText("email", text(profile.email, defaultProfile.email));
   setText("phone", text(profile.phone, defaultProfile.phone));
   setText("contactNote", text(profile.contactNote, defaultProfile.contactNote));
+  setText("intelLabel", text(profile.intelLabel, defaultProfile.intelLabel));
+  setText("intelText", text(profile.intelText, defaultProfile.intelText));
+  setText("profileStatus", text(profile.profileStatus, defaultProfile.profileStatus));
+  setText("signalTitle", text(profile.signalTitle, defaultProfile.signalTitle));
+  setText("signalText", text(profile.signalText, defaultProfile.signalText));
 
   renderPortrait();
   renderContactLinks();
+  renderDeck();
+  renderSignalTags();
   renderExperience();
   renderProjects();
 }
@@ -219,12 +256,57 @@ function renderContactLinks() {
   emailLink.href = `mailto:${text(profile.email, defaultProfile.email)}`;
 
   const socialLink = document.querySelector("#socialLink");
-  socialLink.href = text(profile.social, "#");
+  socialLink.href = normalizeLink(profile.social);
   socialLink.style.display = text(profile.social) && profile.social !== "#" ? "inline-flex" : "none";
 
   const resumeLink = document.querySelector("#resumeLink");
-  resumeLink.href = text(profile.resume, "#");
+  resumeLink.href = normalizeLink(profile.resume);
   resumeLink.style.display = text(profile.resume) && profile.resume !== "#" ? "inline-flex" : "none";
+}
+
+function normalizeLink(value) {
+  const link = text(value, "#");
+  if (!link || link === "#") {
+    return "#";
+  }
+
+  if (/^(https?:|mailto:|tel:)/i.test(link)) {
+    return link;
+  }
+
+  return `https://${link}`;
+}
+
+function renderDeck() {
+  const grid = document.querySelector(".deck-grid");
+  const items = profile.deck.length ? profile.deck : defaultProfile.deck;
+  grid.innerHTML = "";
+
+  items.forEach((item, index) => {
+    const card = document.createElement("article");
+    card.className = "deck-card";
+    card.innerHTML = `
+      <span></span>
+      <h3></h3>
+      <p></p>
+    `;
+    card.querySelector("span").textContent = String(index + 1).padStart(2, "0");
+    card.querySelector("h3").textContent = item.title;
+    card.querySelector("p").textContent = item.description;
+    grid.append(card);
+  });
+}
+
+function renderSignalTags() {
+  const grid = document.querySelector(".signal-grid");
+  const tags = profile.signalTags.length ? profile.signalTags : defaultProfile.signalTags;
+  grid.innerHTML = "";
+
+  tags.forEach((tag) => {
+    const span = document.createElement("span");
+    span.textContent = tag;
+    grid.append(span);
+  });
 }
 
 function renderExperience() {
@@ -276,6 +358,8 @@ function fillForm() {
   const values = {
     ...profile,
     images: profile.images.join("\n"),
+    deck: profile.deck.map((item) => `${item.title} | ${item.description}`).join("\n"),
+    signalTags: profile.signalTags.join("\n"),
     experience: profile.experience
       .map((item) => `${item.period} | ${item.title} | ${item.description}`)
       .join("\n"),
@@ -292,6 +376,26 @@ function fillForm() {
 }
 
 function parseImages(value) {
+  return value
+    .split("\n")
+    .map((line) => line.trim())
+    .filter(Boolean);
+}
+
+function parseDeck(value) {
+  return value
+    .split("\n")
+    .map((line) => line.trim())
+    .filter(Boolean)
+    .map((line) => {
+      const [title = "标题", description = "补充说明"] = line
+        .split("|")
+        .map((part) => part.trim());
+      return { title, description };
+    });
+}
+
+function parseTags(value) {
   return value
     .split("\n")
     .map((line) => line.trim())
@@ -341,6 +445,13 @@ function profileFromForm() {
     social: text(data.get("social"), "#"),
     resume: text(data.get("resume"), "#"),
     contactNote: text(data.get("contactNote"), defaultProfile.contactNote),
+    intelLabel: text(data.get("intelLabel"), defaultProfile.intelLabel),
+    intelText: text(data.get("intelText"), defaultProfile.intelText),
+    profileStatus: text(data.get("profileStatus"), defaultProfile.profileStatus),
+    deck: parseDeck(String(data.get("deck") || "")),
+    signalTitle: text(data.get("signalTitle"), defaultProfile.signalTitle),
+    signalText: text(data.get("signalText"), defaultProfile.signalText),
+    signalTags: parseTags(String(data.get("signalTags") || "")),
     experience: parseExperience(String(data.get("experience") || "")),
     projects: parseProjects(String(data.get("projects") || ""))
   };
@@ -378,6 +489,9 @@ function setupPageMotion() {
   const sections = document.querySelectorAll(".section");
   const navLinks = [...document.querySelectorAll(".nav a")];
   const indexedSections = [...document.querySelectorAll("section")];
+  const navTargets = navLinks
+    .map((link) => document.querySelector(link.getAttribute("href")))
+    .filter(Boolean);
 
   if (sectionTotal) {
     sectionTotal.textContent = `// 00 / ${String(indexedSections.length).padStart(2, "0")}`;
@@ -422,6 +536,43 @@ function setupPageMotion() {
   );
 
   document.querySelectorAll("section[id]").forEach((section) => navObserver.observe(section));
+
+  function setActiveNav(targetId) {
+    navLinks.forEach((link) => {
+      link.classList.toggle("active", link.getAttribute("href") === `#${targetId}`);
+    });
+  }
+
+  function updateActiveNav() {
+    const isPageBottom =
+      window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 8;
+
+    if (isPageBottom) {
+      setActiveNav("contact");
+      if (sectionIndex) {
+        sectionIndex.textContent = String(indexedSections.length).padStart(2, "0");
+      }
+      return;
+    }
+
+    const current = [...navTargets]
+      .reverse()
+      .find((section) => section.getBoundingClientRect().top <= 150);
+
+    if (current) {
+      setActiveNav(current.id);
+    }
+  }
+
+  navLinks.forEach((link) => {
+    link.addEventListener("click", () => {
+      const targetId = link.getAttribute("href").replace("#", "");
+      window.setTimeout(() => setActiveNav(targetId), 120);
+    });
+  });
+
+  window.addEventListener("scroll", updateActiveNav, { passive: true });
+  updateActiveNav();
 }
 
 function runBootSequence() {

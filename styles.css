@@ -927,6 +927,12 @@ main {
   font-size: clamp(36px, 9vw, 96px);
   font-weight: 900;
   line-height: 0.8;
+  pointer-events: none;
+}
+
+.contact-band > * {
+  position: relative;
+  z-index: 1;
 }
 
 .signal-section {
@@ -986,10 +992,20 @@ main {
 }
 
 .contact-links a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   padding: 12px 14px;
   border: 1px solid var(--line);
   border-radius: 8px;
+  background: rgba(255, 255, 255, 0.72);
   font-weight: 750;
+}
+
+.contact-links a:hover {
+  color: white;
+  border-color: transparent;
+  background: linear-gradient(135deg, var(--teal), var(--green));
 }
 
 .editor {
