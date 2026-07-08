@@ -615,6 +615,12 @@ function runBootSequence() {
   }
 
   let progress = 0;
+  bootPercent.textContent = "0%";
+  if (bootProgressBar) {
+    bootProgressBar.style.width = "0%";
+  }
+  bootScreen.classList.remove("is-hidden");
+
   const timer = window.setInterval(() => {
     progress += 17;
     const visibleProgress = Math.min(progress, 100);
@@ -652,6 +658,14 @@ function buildCleanExportHtml() {
   }
 
   clone.querySelector("#bootScreen")?.classList.remove("is-hidden");
+  const clonedBootPercent = clone.querySelector("#bootPercent");
+  const clonedBootProgressBar = clone.querySelector("#bootProgressBar");
+  if (clonedBootPercent) {
+    clonedBootPercent.textContent = "0%";
+  }
+  if (clonedBootProgressBar) {
+    clonedBootProgressBar.removeAttribute("style");
+  }
 
   return clone.outerHTML.replace(
     "window.siteProfile = null;",
