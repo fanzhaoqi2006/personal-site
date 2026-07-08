@@ -493,7 +493,9 @@ function configureEditMode() {
 function setupPageMotion() {
   const sections = document.querySelectorAll(".section");
   const navLinks = [...document.querySelectorAll(".nav a")];
-  const indexedSections = [...document.querySelectorAll("section")];
+  const indexedSections = [...document.querySelectorAll(".section-heading")].map((heading) =>
+    heading.closest("section")
+  );
   const navTargets = navLinks
     .map((link) => document.querySelector(link.getAttribute("href")))
     .filter(Boolean);
@@ -529,10 +531,7 @@ function setupPageMotion() {
         link.classList.toggle("active", link.getAttribute("href") === `#${visibleEntry.target.id}`);
       });
 
-      const currentIndex = indexedSections.indexOf(visibleEntry.target) + 1;
-      if (sectionIndex && currentIndex > 0) {
-        sectionIndex.textContent = String(currentIndex).padStart(2, "0");
-      }
+      updateRailIndex();
     },
     {
       rootMargin: "-35% 0px -52% 0px",
@@ -555,7 +554,8 @@ function setupPageMotion() {
     if (isPageBottom) {
       setActiveNav("contact");
       if (sectionIndex) {
-        sectionIndex.textContent = String(indexedSections.length).padStart(2, "0");
+        const contactIndex = getRailIndexForSection(document.querySelector("#contact"));
+        sectionIndex.textContent = String(contactIndex || indexedSections.length).padStart(2, "0");
       }
       return;
     }
@@ -566,6 +566,35 @@ function setupPageMotion() {
 
     if (current) {
       setActiveNav(current.id);
+    }
+
+    updateRailIndex();
+  }
+
+  function getRailIndexForSection(section) {
+    if (!section) {
+      return 0;
+    }
+
+    const exactIndex = indexedSections.indexOf(section);
+    if (exactIndex >= 0) {
+      return exactIndex + 1;
+    }
+
+    return indexedSections.filter((item) => item.offsetTop <= section.offsetTop).length;
+  }
+
+  function updateRailIndex() {
+    if (!sectionIndex) {
+      return;
+    }
+
+    const current = [...indexedSections]
+      .reverse()
+      .find((section) => section.getBoundingClientRect().top <= 180);
+
+    if (current) {
+      sectionIndex.textContent = String(getRailIndexForSection(current)).padStart(2, "0");
     }
   }
 
