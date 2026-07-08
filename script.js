@@ -487,6 +487,10 @@ function configureEditMode() {
     document.body.classList.add("public-mode");
     editToggle.hidden = true;
     editToggle.setAttribute("aria-hidden", "true");
+  } else {
+    document.body.classList.remove("public-mode");
+    editToggle.hidden = false;
+    editToggle.removeAttribute("aria-hidden");
   }
 }
 
